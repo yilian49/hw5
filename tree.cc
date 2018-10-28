@@ -6,31 +6,42 @@ tree_ptr_t create_tree(const key_t& key,
                        tree_ptr_t left = nullptr,
                        tree_ptr_t right = nullptr)
 {
-	tree_ptr_t treep = new Tree{(key, value, left, right)};
+	tree_ptr_t* treep = new Tree{(key, value, left, right)};
 	return treep;
 }
 
 void destroy_tree(tree_ptr_t tree)
 {
-	if(tree->left != nullptr)
+	if(*tree->left != nullptr)
 	{
-		destroy_tree(tree->left_);
+		destroy_tree(*tree->left_);
 	}
-	if(tree->right != nullptr)
+	if(*tree->right != nullptr)
 	{
-		destroy_tree(tree->right_);
+		destroy_tree(*tree->right_);
 	}
-	delete tree;
+	delete *tree;
 }
 
 std::string path_to(tree_ptr_t tree, key_t key)
 {
-
+	
 }
 
 bool isKeyInTree(tree_ptr_t tree, key_t key)
 {
-
+	bool leftResult = false;
+	bool rightResult = false;
+	if (*tree.key == key)
+	if(*tree->left != nullptr)
+	{
+		leftResult = isKeyInTree(*tree->left);
+	}
+	if(*tree->right != nullptr)
+	{
+		rightResult = isKeyInTree(*tree->right);
+	}
+	if(*tree->left == nullptr and *tree->right == nullptr)
 
 //////////////////////////////////////////////////////////////////////////////
 // node_at: Follow a path from a given root node and return the node that is
