@@ -26,6 +26,9 @@ void destroy_tree(tree_ptr_t tree)
 
 bool isKeyInTree(tree_ptr_t tree, key_t key)
 {
+	if (tree == nullptr){
+		return false;
+	}
 	bool leftResult = false;
 	bool rightResult = false;
 	if (tree->key_ == key)
@@ -38,58 +41,30 @@ bool isKeyInTree(tree_ptr_t tree, key_t key)
 	{
 		rightResult = isKeyInTree(tree->right_, key);
 	}
-	if(tree->left_ == nullptr and tree->right_ == nullptr)
-	{
-		if (tree->key_ == key)
-		{return true;}
-		else
-		{return false;}
-	}	
 	if (rightResult or leftResult)
 	{return true;}
 	else
 	{return false;}
 }
 
-std::string path_to_rec(tree_ptr_t tree, key_t key)
-{	
-	if (isKeyInTree(tree->left_, key))
-	{
-	return 'L' + path_to_rec(tree->left_, key);
-	}
-	else if (tree->key_ == key)
-	{
-	return "";
-	}
-	else if (isKeyInTree(tree->right_, key))
-	{
-	return "R" + path_to_rec(tree->right_, key);
-	}
-	else
-	{
-	exit(1);
-	}	
-}
-
 std::string path_to(tree_ptr_t tree, key_t key)
 {
-	if (isKeyInTree(tree, key))
+	if (tree->left_ != nullptr and isKeyInTree(tree->left_, key))
 	{
-		return path_to_rec(tree, key);
+		return "L" + path_to(tree->left_, key);
 	}
-	else
+	if (tree->key_ == key)
 	{
-		exit(1);
+		return "";
 	}
-
+	if (tree->right_ != nullptr and isKeyInTree(tree->right_, key))
+	{
+		return "R" + path_to(tree->right_, key);
+	}
+	exit(1);
 }
 
-//////////////////////////////////////////////////////////////////////////////
-// node_at: Follow a path from a given root node and return the node that is
-// at the end of the path. For example, for the root of the tree above,
-// node_at("LR") will return a pointer to the node whose key is 6.
-// If the path leads to an invalid or empty child, or contains any character
-// other than 'L' or 'R', return nullptr (don't crash)
+
 tree_ptr_t node_at(tree_ptr_t tree, std::string path)
 {
 	if (path.length() == 0)
