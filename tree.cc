@@ -21,6 +21,7 @@ void destroy_tree(tree_ptr_t tree)
 		destroy_tree(tree->right_);
 	}
 	delete tree;
+	tree = nullptr;
 }
 
 
